@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0a0f1e;
+  color: #f9fafb;
+  font-family: 'Inter', sans-serif;
+}
+
+.card {
+  @apply bg-gray-900 border border-gray-800 rounded-xl p-6;
+}
+
+.btn-primary {
+  @apply bg-cyan-500 hover:bg-cyan-400 text-navy-900 font-semibold px-6 py-2.5 rounded-lg transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-purple-700 hover:bg-purple-600 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded-lg transition-colors;
+}
+
+.btn-success {
+  @apply bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg transition-colors;
+}
+
+.input {
+  @apply bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-2.5 w-full focus:outline-none focus:border-cyan-500 transition-colors;
+}
+
+.badge-pending { @apply bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-xs font-medium; }
+.badge-approved { @apply bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-xs font-medium; }
+.badge-rejected { @apply bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-xs font-medium; }
+.badge-completed { @apply bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded text-xs font-medium; }
+.badge-counter { @apply bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded text-xs font-medium; }

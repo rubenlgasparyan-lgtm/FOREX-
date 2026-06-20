@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String
+  firstName    String
+  lastName     String
+  phone        String?
+  role         Role          @default(CUSTOMER)
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+  negotiations Negotiation[]
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model ExchangeRate {
+  id           String   @id @default(cuid())
+  fromCurrency String
+  toCurrency   String
+  buyRate      Float
+  sellRate     Float
+  updatedAt    DateTime @updatedAt
+  updatedBy    String?
+
+  @@unique([fromCurrency, toCurrency])
+}
+
+model Transaction {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id])
+  fromCurrency  String
+  toCurrency    String
+  fromAmount    Float
+  toAmount      Float
+  rate          Float
+  status        TxStatus   @default(COMPLETED)
+  type          TxType     @default(STANDARD)
+  negotiationId String?
+  createdAt     DateTime   @default(now())
+}
+
+enum TxStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+enum TxType {
+  STANDARD
+  NEGOTIATED
+  CARD_WITHDRAWAL
+}
+
+model Negotiation {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  fromCurrency  String
+  toCurrency    String
+  amount        Float
+  requestedRate Float
+  marketRate    Float
+  purpose       String?
+  status        NegStatus @default(PENDING)
+  adminNote     String?
+  approvedRate  Float?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum NegStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COUNTER_OFFERED
+}
